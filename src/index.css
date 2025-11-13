@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* ACA Brand Colors - Updated from Logo */
+    --aca-navy: 228 35% 15%;        /* #1a1f3a - Dark Navy from logo background */
+    --aca-gold: 45 100% 55%;        /* #FFB800 - Gold/Yellow from logo */
+    --aca-white: 0 0% 100%;         /* #FFFFFF */
+    --aca-light-gray: 216 33% 97%;  /* #F5F7FA */
+    --aca-dark-bg: 228 35% 10%;     /* Darker shade for backgrounds */
+    
+    /* Design System Mapping */
+    --background: var(--aca-white);
+    --foreground: var(--aca-navy);
+
+    --card: var(--aca-white);
+    --card-foreground: var(--aca-navy);
+
+    --popover: var(--aca-white);
+    --popover-foreground: var(--aca-navy);
+
+    --primary: var(--aca-navy);
+    --primary-foreground: var(--aca-white);
+
+    --secondary: var(--aca-light-gray);
+    --secondary-foreground: var(--aca-navy);
+
+    --muted: var(--aca-light-gray);
+    --muted-foreground: 228 15% 50%;
+
+    --accent: var(--aca-gold);
+    --accent-foreground: var(--aca-navy);
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--aca-white);
+
+    --border: 228 20% 85%;
+    --input: 228 20% 90%;
+    --ring: var(--aca-gold);
+
+    --radius: 0.75rem;
+
+    /* Custom Gradients */
+    --gradient-navy-gold: linear-gradient(135deg, hsl(var(--aca-navy)) 0%, hsl(var(--aca-gold)) 100%);
+    --gradient-gold-navy: linear-gradient(135deg, hsl(var(--aca-gold)) 0%, hsl(var(--aca-navy)) 100%);
+    
+    /* Shadows */
+    --shadow-glow-gold: 0 0 30px hsla(var(--aca-gold), 0.5);
+    --shadow-card: 0 4px 20px rgba(26, 31, 58, 0.08);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: var(--aca-navy);
+    --foreground: var(--aca-white);
+
+    --card: 209 70% 10%;
+    --card-foreground: var(--aca-white);
+
+    --popover: 209 70% 10%;
+    --popover-foreground: var(--aca-white);
+
+    --primary: var(--aca-gold);
+    --primary-foreground: var(--aca-navy);
+
+    --secondary: 228 40% 20%;
+    --secondary-foreground: var(--aca-white);
+
+    --muted: 228 40% 20%;
+    --muted-foreground: 228 15% 70%;
+
+    --accent: var(--aca-gold);
+    --accent-foreground: var(--aca-navy);
+
+    --border: 228 40% 20%;
+    --input: 228 40% 20%;
+    --ring: var(--aca-gold);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
