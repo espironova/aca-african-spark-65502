@@ -1,6 +1,7 @@
 import { Award, Users, Heart, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState, useRef } from "react";
+import areYouCovered from "@/assets/are-you-covered.jpg";
 
 const WhyChooseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -60,8 +61,8 @@ const WhyChooseSection = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary to-background z-10" />
         <img 
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1920&q=80"
-          alt="Kenyan professionals in office"
+          src={areYouCovered}
+          alt="Are you covered - Insurance protection"
           className="w-full h-full object-cover opacity-10"
           loading="lazy"
           style={{

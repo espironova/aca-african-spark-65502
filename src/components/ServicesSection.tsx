@@ -1,5 +1,10 @@
 import { Car, Home, Heart, Briefcase, Sprout, Plane } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import motorInsurance from "@/assets/motor-insurance.jpg";
+import homeInsurance from "@/assets/home-insurance.jfif";
+import medicalInsurance from "@/assets/medical-insurance.jpg";
+import businessInsurance from "@/assets/business-insurance.webp";
+import travelInsurance from "@/assets/travel-insurance.jfif";
 
 const ServicesSection = () => {
   const services = [
@@ -7,28 +12,28 @@ const ServicesSection = () => {
       icon: Car,
       title: "Motor Insurance",
       description: "Comprehensive coverage for your vehicle. Protect against accidents, theft, and third-party liability.",
-      image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80",
+      image: motorInsurance,
       color: "from-accent/20 to-primary/20"
     },
     {
       icon: Home,
       title: "Home Insurance",
       description: "Safeguard your property and belongings. Coverage for fire, theft, natural disasters and more.",
-      image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80",
+      image: homeInsurance,
       color: "from-primary/20 to-accent/20"
     },
     {
       icon: Heart,
       title: "Medical & Life Insurance",
       description: "Health and life protection for you and your family. Peace of mind for the unexpected.",
-      image: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=800&q=80",
+      image: medicalInsurance,
       color: "from-accent/20 to-primary/20"
     },
     {
       icon: Briefcase,
       title: "Business Insurance",
       description: "Protect your enterprise from risks. Coverage for property, liability, and business interruption.",
-      image: "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80",
+      image: businessInsurance,
       color: "from-primary/20 to-accent/20"
     },
     {
@@ -42,7 +47,7 @@ const ServicesSection = () => {
       icon: Plane,
       title: "Travel & Other Covers",
       description: "Travel insurance and specialized coverage. Stay protected wherever life takes you.",
-      image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+      image: travelInsurance,
       color: "from-primary/20 to-accent/20"
     }
   ];
