@@ -1,0 +1,5 @@
+// lovable.migrate.json
+{
+  "migrate": true,
+  "notes": "Lovable frontend — convert to Next.js SSR on every push"
+}
