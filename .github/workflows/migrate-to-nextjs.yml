@@ -50,11 +50,13 @@ jobs:
 
       - name: Push to nextjs-deploy branch
         if: steps.check_flag.outputs.enabled == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git checkout -B nextjs-deploy
           git add -A
           git commit -m "chore: auto-migrate to Next.js [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
-          git push origin nextjs-deploy --force
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} nextjs-deploy --force
 
       - name: Skip notice
         if: steps.check_flag.outputs.enabled == 'false'
