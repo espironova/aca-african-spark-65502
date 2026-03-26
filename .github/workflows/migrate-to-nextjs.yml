@@ -1,0 +1,58 @@
+name: Migrate Vite → Next.js and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if migration is enabled for this repo
+        id: check_flag
+        run: |
+          if [ -f "lovable.migrate.json" ]; then
+            echo "enabled=true" >> $GITHUB_OUTPUT
+          else
+            echo "enabled=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Node.js
+        if: steps.check_flag.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download migration script
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: curl -O https://raw.githubusercontent.com/sergust/lovable-vite-nextjs-migration/main/migrate-to-nextjs.js
+
+      - name: Run migration
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: node migrate-to-nextjs.js
+
+      - name: Configure Git
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push to nextjs-deploy branch
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: |
+          git checkout -B nextjs-deploy
+          git add -A
+          git commit -m "chore: auto-migrate to Next.js [$(date +'%Y-%m-%d %H:%M')]"
+          git push origin nextjs-deploy --force
+
+      - name: Skip notice
+        if: steps.check_flag.outputs.enabled == 'false'
+        run: echo "⏭️ lovable.migrate.json not found — skipping migration for this repo."
