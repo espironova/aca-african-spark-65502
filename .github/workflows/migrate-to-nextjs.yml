@@ -13,11 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 2️⃣ Check if migration is enabled
       - name: Check if migration is enabled for this repo
         id: check_flag
         run: |
@@ -27,6 +29,7 @@ jobs:
             echo "enabled=false" >> $GITHUB_OUTPUT
           fi
 
+      # 3️⃣ Setup Node.js
       - name: Setup Node.js
         if: steps.check_flag.outputs.enabled == 'true'
         uses: actions/setup-node@v4
@@ -34,20 +37,24 @@ jobs:
           node-version: 22
           cache: 'npm'
 
+      # 4️⃣ Download migration script
       - name: Download migration script
         if: steps.check_flag.outputs.enabled == 'true'
         run: curl -O https://raw.githubusercontent.com/sergust/lovable-vite-nextjs-migration/main/migrate-to-nextjs.js
 
+      # 5️⃣ Run migration
       - name: Run migration
         if: steps.check_flag.outputs.enabled == 'true'
         run: node migrate-to-nextjs.js
 
+      # 6️⃣ Configure Git
       - name: Configure Git
         if: steps.check_flag.outputs.enabled == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      # 7️⃣ Authenticated push to nextjs-deploy
       - name: Push to nextjs-deploy branch
         if: steps.check_flag.outputs.enabled == 'true'
         env:
@@ -56,8 +63,10 @@ jobs:
           git checkout -B nextjs-deploy
           git add -A
           git commit -m "chore: auto-migrate to Next.js [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} nextjs-deploy --force
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+          git push origin nextjs-deploy --force
 
+      # 8️⃣ Skip notice if migration not enabled
       - name: Skip notice
         if: steps.check_flag.outputs.enabled == 'false'
         run: echo "⏭️ lovable.migrate.json not found — skipping migration for this repo."
