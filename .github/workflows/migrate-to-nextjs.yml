@@ -1,4 +1,5 @@
 name: Migrate Vite → Next.js and Deploy
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -14,7 +15,8 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-      # 1️⃣ Checkout code with credentials for push
+
+      # 1️⃣ Checkout code
       - name: Checkout main
         uses: actions/checkout@v4
         with:
@@ -44,55 +46,58 @@ jobs:
         if: steps.check_flag.outputs.enabled == 'true'
         run: curl -O https://raw.githubusercontent.com/sergust/lovable-vite-nextjs-migration/main/migrate-to-nextjs.js
 
-      # 5️⃣ Run migration
+      # 5️⃣ Run base migration
       - name: Run migration
         if: steps.check_flag.outputs.enabled == 'true'
         run: node migrate-to-nextjs.js
 
-      # 6️⃣ Apply post-migration fixes
+      # 6️⃣ Apply all post-migration fixes
       - name: Apply post-migration fixes
         if: steps.check_flag.outputs.enabled == 'true'
         run: |
 
-          # ── Fix A: Disable Turbopack (Next.js 16 default, causes compat issues) ──
+          # ── Fix A: Disable Turbopack ──
           sed -i 's/"next build"/"next build --no-turbo"/' package.json
           sed -i 's/"next dev --turbopack"/"next dev"/' package.json
+          echo "✅ Fix A: Turbopack disabled"
 
-          # ── Fix B: Add "use client" to any file using hooks but missing the directive ──
-          for file in $(grep -rl "useState\|useEffect\|useRef\|useContext\|useNavigate\|useRouter\|useParams\|useSearchParams" src/ --include="*.tsx" --include="*.jsx"); do
+          # ── Fix B: Add "use client" to files using React hooks ──
+          for file in $(grep -rl "useState\|useEffect\|useRef\|useContext\|useNavigate\|useRouter\|useParams\|useSearchParams" src/ --include="*.tsx" --include="*.jsx" 2>/dev/null); do
             if ! head -1 "$file" | grep -q '"use client"'; then
-              # Skip files that are server components (have async default export)
               if ! grep -q "export default async function" "$file"; then
                 sed -i '1s/^/"use client";\n/' "$file"
               fi
             fi
           done
+          echo "✅ Fix B: use client directives added"
 
-          # ── Fix C: Replace react-router-dom Link/hooks with Next.js equivalents ──
-          find src -name "*.tsx" -o -name "*.jsx" | xargs sed -i \
+          # ── Fix C: Replace react-router-dom with Next.js equivalents ──
+          find src -name "*.tsx" -o -name "*.jsx" 2>/dev/null | xargs sed -i \
             -e "s|import { Link } from 'react-router-dom'|import Link from 'next/link'|g" \
             -e "s|import { useNavigate } from 'react-router-dom'|import { useRouter } from 'next/navigation'|g" \
             -e "s|import { useParams } from 'react-router-dom'|import { useParams } from 'next/navigation'|g" \
             -e "s|import { useSearchParams } from 'react-router-dom'|import { useSearchParams } from 'next/navigation'|g" \
             -e "s|const navigate = useNavigate()|const router = useRouter()|g" \
             -e "s|navigate(|router.push(|g"
+          echo "✅ Fix C: react-router-dom replaced"
 
-          # ── Fix D: Remove leftover BrowserRouter / Routes wrapping ──
-          find src -name "*.tsx" -o -name "*.jsx" | xargs sed -i \
+          # ── Fix D: Remove BrowserRouter / Routes wrapping ──
+          find src -name "*.tsx" -o -name "*.jsx" 2>/dev/null | xargs sed -i \
             -e "s|import { BrowserRouter.*} from 'react-router-dom'||g" \
             -e "s|import { Routes.*} from 'react-router-dom'||g" \
             -e "s|<BrowserRouter>||g" \
             -e "s|</BrowserRouter>||g"
+          echo "✅ Fix D: BrowserRouter removed"
 
-          # ── Fix E: Ensure next.config.mjs has typescript + eslint build bypass ──
+          # ── Fix E: Harden next.config.mjs ──
           cat > next.config.mjs << 'EOF'
           /** @type {import('next').NextConfig} */
           const nextConfig = {
             typescript: {
-              ignoreBuildErrors: true,  // Remove once TS errors are cleaned up
+              ignoreBuildErrors: true,
             },
             eslint: {
-              ignoreDuringBuilds: true, // Remove once ESLint errors are cleaned up
+              ignoreDuringBuilds: true,
             },
             images: {
               remotePatterns: [
@@ -106,34 +111,93 @@ jobs:
           };
           export default nextConfig;
           EOF
+          echo "✅ Fix E: next.config.mjs hardened"
 
-      # 7️⃣ Install dependencies and validate build BEFORE pushing
+          # ── Fix F: Convert .jfif files to .jpg ──
+          find src/assets -name "*.jfif" 2>/dev/null | while read file; do
+            newfile="${file%.jfif}.jpg"
+            cp "$file" "$newfile"
+            rm "$file"
+            basename_old=$(basename "$file")
+            basename_new=$(basename "$newfile")
+            grep -rl "$basename_old" src/ | xargs sed -i "s|${basename_old}|${basename_new}|g"
+            echo "  Converted $basename_old → $basename_new"
+          done
+          echo "✅ Fix F: .jfif files converted"
+
+          # ── Fix G: Remove main.tsx and rewire client.tsx to correct entry point ──
+          rm -f src/main.tsx
+          echo "  Removed src/main.tsx"
+
+          # Determine the correct entry point in priority order
+          if [ -f "src/pages/Index.tsx" ]; then
+            ENTRY="../../pages/Index"
+            echo "  Entry point resolved: src/pages/Index.tsx"
+          elif [ -f "src/pages/Home.tsx" ]; then
+            ENTRY="../../pages/Home"
+            echo "  Entry point resolved: src/pages/Home.tsx"
+          elif [ -f "src/pages/index.tsx" ]; then
+            ENTRY="../../pages/index"
+            echo "  Entry point resolved: src/pages/index.tsx"
+          elif [ -f "src/App.tsx" ]; then
+            ENTRY="../../App"
+            echo "  Entry point resolved: src/App.tsx"
+          else
+            echo "⚠️  Could not determine entry point — check src/pages/ manually"
+            exit 1
+          fi
+
+          # Rewrite client.tsx with the resolved entry point
+          mkdir -p "src/app/[[...slug]]"
+          cat > "src/app/[[...slug]]/client.tsx" << EOF
+          'use client'
+          import dynamic from 'next/dynamic'
+
+          const App = dynamic(() => import('${ENTRY}'), { ssr: false })
+
+          export function ClientOnly() {
+            return <App />
+          }
+          EOF
+          echo "  client.tsx rewired to: ${ENTRY}"
+
+          # Remove App.tsx only if it is no longer the entry and is just a router wrapper
+          if [ "$ENTRY" != "../../App" ] && [ -f "src/App.tsx" ]; then
+            if grep -q "BrowserRouter\|createBrowserRouter\|RouterProvider" src/App.tsx 2>/dev/null; then
+              rm -f src/App.tsx
+              echo "  Removed Vite router App.tsx"
+            else
+              echo "  App.tsx kept — contains non-router logic"
+            fi
+          fi
+          echo "✅ Fix G: Entry point rewired"
+
+      # 7️⃣ Install dependencies
       - name: Install dependencies
         if: steps.check_flag.outputs.enabled == 'true'
         run: npm install
 
+      # 8️⃣ Validate build before pushing
       - name: Validate Next.js build
         if: steps.check_flag.outputs.enabled == 'true'
         run: npm run build
         env:
-          # Pass dummy values so build doesn't fail on missing env vars
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
 
-      # 8️⃣ Configure Git
+      # 9️⃣ Configure Git
       - name: Configure Git
         if: steps.check_flag.outputs.enabled == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 9️⃣ Push to nextjs-deploy branch (only if build passed)
+      # 🔟 Push to nextjs-deploy (only if build passed)
       - name: Push to nextjs-deploy branch
         if: steps.check_flag.outputs.enabled == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Exclude build artifacts from the push
           echo ".next/" >> .gitignore
           echo "node_modules/" >> .gitignore
           git checkout -B nextjs-deploy
@@ -141,7 +205,7 @@ jobs:
           git commit -m "chore: auto-migrate to Next.js [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
           git push origin nextjs-deploy --force
 
-      # 🔟 Skip notice if migration not enabled
+      # 1️⃣1️⃣ Skip notice
       - name: Skip notice
         if: steps.check_flag.outputs.enabled == 'false'
         run: echo "⏭️ lovable.migrate.json not found — skipping migration for this repo."
