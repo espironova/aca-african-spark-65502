@@ -57,7 +57,7 @@ jobs:
         run: |
 
           # ── Fix A: Disable Turbopack ──
-          sed -i 's/"next build"/"next build --no-turbo"/' package.json
+          sed -i 's/"next build"/"next build --no-turbopack"/' package.json
           sed -i 's/"next dev --turbopack"/"next dev"/' package.json
           echo "✅ Fix A: Turbopack disabled"
 
