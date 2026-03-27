@@ -56,10 +56,11 @@ jobs:
         if: steps.check_flag.outputs.enabled == 'true'
         run: |
 
-          # ── Fix A: Disable Turbopack ──
-          sed -i 's/"next build"/"next build --no-turbopack"/' package.json
+          # ── Fix A: Disable Turbopack (Next.js 16 uses config, not CLI flags) ──
           sed -i 's/"next dev --turbopack"/"next dev"/' package.json
-          echo "✅ Fix A: Turbopack disabled"
+          sed -i 's/"next build --no-turbopack"/"next build"/' package.json
+          sed -i 's/"next build --no-turbo"/"next build"/' package.json
+          echo "✅ Fix A: Turbopack CLI flags cleaned"
 
           # ── Fix B: Add "use client" to files using React hooks ──
           for file in $(grep -rl "useState\|useEffect\|useRef\|useContext\|useNavigate\|useRouter\|useParams\|useSearchParams" src/ --include="*.tsx" --include="*.jsx" 2>/dev/null); do
@@ -89,10 +90,15 @@ jobs:
             -e "s|</BrowserRouter>||g"
           echo "✅ Fix D: BrowserRouter removed"
 
-          # ── Fix E: Harden next.config.mjs ──
+          # ── Fix E: Harden next.config.mjs with Turbopack disabled via config ──
           cat > next.config.mjs << 'EOF'
           /** @type {import('next').NextConfig} */
           const nextConfig = {
+            experimental: {
+              turbo: {
+                enabled: false,
+              },
+            },
             typescript: {
               ignoreBuildErrors: true,
             },
