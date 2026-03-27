@@ -92,7 +92,7 @@ const WhyChooseSection = () => {
             return (
               <Card
                 key={feature.title}
-                className={`group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-accent ${
+                className={`group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-border/30 bg-card/50 backdrop-blur-xl hover:border-accent ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-12"

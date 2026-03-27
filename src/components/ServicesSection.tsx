@@ -70,7 +70,7 @@ const ServicesSection = () => {
             return (
               <Card 
                 key={service.title}
-                className="group cursor-pointer overflow-hidden border-2 hover:border-accent transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in"
+                className="group cursor-pointer overflow-hidden border border-border/50 bg-card/60 backdrop-blur-xl hover:border-accent transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative h-48 overflow-hidden">
