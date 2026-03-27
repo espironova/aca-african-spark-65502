@@ -2,7 +2,10 @@ import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import ServiceStoriesCarousel from "@/components/ServiceStoriesCarousel";
 import ServicesSection from "@/components/ServicesSection";
+import QuoteCalculator from "@/components/QuoteCalculator";
+import ComparisonTable from "@/components/ComparisonTable";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import ClaimsTimeline from "@/components/ClaimsTimeline";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import QuizSection from "@/components/QuizSection";
@@ -45,7 +48,10 @@ const Index = () => {
         <HeroSection />
         <ServiceStoriesCarousel />
         <ServicesSection />
+        <ComparisonTable />
+        <QuoteCalculator />
         <HowItWorksSection />
+        <ClaimsTimeline />
         <WhyChooseSection />
         <TestimonialsSection />
         <QuizSection />

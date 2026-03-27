@@ -34,7 +34,7 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? "bg-primary shadow-lg py-3" : "bg-primary/95 py-4"
+      isScrolled ? "bg-primary/80 backdrop-blur-xl shadow-lg py-3" : "bg-primary/70 backdrop-blur-md py-4"
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
@@ -67,7 +67,7 @@ const Navigation = () => {
                 <ChevronDown className="w-4 h-4" />
               </button>
               {openDropdown === 'services' && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-background border-2 border-accent/20 rounded-lg shadow-xl py-2 z-50 animate-fade-in">
+                <div className="absolute top-full left-0 mt-2 w-64 bg-background/80 backdrop-blur-xl border border-accent/20 rounded-lg shadow-xl py-2 z-50 animate-fade-in">
                   {services.map((service) => (
                     <NavLink
                       key={service.name}
