@@ -760,6 +760,19 @@ jobs:
           console.log('Fix J complete — sitemap (' + paths.length + ' routes) + robots.ts');
           NODEJS
 
+      # ─── FIX K: Remove stale Vite vercel.json ───────────────────────────────
+      # Lovable commits a vercel.json with outputDirectory:"dist" (Vite build output).
+      # Next.js outputs to .next — Vercel auto-detects this when vercel.json is absent.
+      - name: "Fix K — Remove stale Vite vercel.json"
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: |
+          if [ -f "vercel.json" ]; then
+            rm vercel.json
+            echo "Removed stale vercel.json (had Vite outputDirectory:dist)"
+          else
+            echo "No vercel.json found — nothing to remove"
+          fi
+
       # ─── 6. INSTALL DEPENDENCIES ─────────────────────────────────────────────
       - name: Install dependencies
         if: steps.check_flag.outputs.enabled == 'true'
