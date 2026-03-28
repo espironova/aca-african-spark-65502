@@ -550,15 +550,24 @@ jobs:
               changed = true;
               totalReplaced++;
 
-              // Extract attribute values
-              const get = (name) => {
-                const m = attrs.match(new RegExp(name + '=\\{([^}]+)\\}|' + name + '=["\']([^"\']+)["\']'));
-                return m ? (m[1] || m[2] || '').trim() : '';
+              // Extract attribute values, tracking whether they were JSX expressions
+              // or string literals — critical for re-emitting correct JSX syntax.
+              // get() strips delimiters, so we must remember the original form.
+              const getAttr = (name) => {
+                const exprM = attrs.match(new RegExp(name + '=\\{([^}]+)\\}'));
+                if (exprM) return { value: exprM[1].trim(), isExpr: true };
+                const strM = attrs.match(new RegExp(name + '=["\']([^"\']+)["\']'));
+                if (strM) return { value: strM[1].trim(), isExpr: false };
+                return { value: '', isExpr: false };
               };
-              const srcVal     = get('src');
-              const altVal     = get('alt');
-              const classVal   = get('className');
-              const loadingVal = get('loading');
+              const srcInfo     = getAttr('src');
+              const altInfo     = getAttr('alt');
+              const classInfo   = getAttr('className');
+              const loadingInfo = getAttr('loading');
+              const srcVal      = srcInfo.value;
+              const altVal      = altInfo.value;
+              const classVal    = classInfo.value;
+              const loadingVal  = loadingInfo.value;
 
               // Collect external hostnames
               const urlMatch = srcVal.match(/https?:\/\/([^/'"]+)/);
@@ -575,18 +584,20 @@ jobs:
                 .trim();
 
               const isPriority = loadingVal === 'eager';
-              // sizes: full-width for Unsplash backgrounds, responsive for cards
+              // sizes: full-width for external backgrounds, responsive for card images
               const isBackground = classVal.includes('absolute') || attrs.includes('inset-0')
-                || srcVal.startsWith('"https://') || srcVal.startsWith("'https://");
+                || srcVal.startsWith('https://');
               const sizes = isBackground
                 ? '"100vw"'
                 : '"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"';
 
-              const srcAttr = (srcVal.startsWith('"') || srcVal.startsWith("'"))
+              // String literals need quotes inside {}: src={"https://..."}
+              // JSX expressions keep bare identifier: src={variable}
+              const srcAttr = srcInfo.isExpr
                 ? 'src={' + srcVal + '}'
-                : 'src={' + srcVal + '}';
+                : 'src={"' + srcVal + '"}';
               const altAttr = altVal
-                ? ('alt=' + ((altVal.startsWith('"') || altVal.startsWith("'")) ? altVal : '"' + altVal + '"'))
+                ? (altInfo.isExpr ? 'alt={' + altVal + '}' : 'alt="' + altVal + '"')
                 : 'alt=""';
 
               if (isFill) {
