@@ -336,15 +336,30 @@ jobs:
             // ── not-found.tsx ─────────────────────────────────────────────
             if (notFound && notFound.importSrc) {
               const nfRelPath = notFound.importSrc.replace(/^\.\/pages\//, '');
-              fs.writeFileSync('src/app/not-found.tsx', [
-                "import " + notFound.component + " from '../routes/" + nfRelPath + "'",
+              // Same two-file pattern as regular pages: server not-found.tsx → client wrapper
+              const nfDynName = notFound.component + 'Dynamic';
+              const nfClientName = notFound.component + 'Client';
+              const nfRelImport = '../routes/' + nfRelPath;
+              fs.writeFileSync('src/app/_not-found-client.tsx', [
+                "'use client'",
+                "import dynamic from 'next/dynamic'",
                 '',
-                'export default function NotFoundPage() {',
-                '  return <' + notFound.component + ' />',
+                "const " + nfDynName + " = dynamic(() => import('" + nfRelImport + "'), { ssr: false })",
+                '',
+                'export function ' + nfClientName + '() {',
+                '  return <' + nfDynName + ' />',
                 '}',
                 '',
               ].join('\n'));
-              console.log('Created src/app/not-found.tsx');
+              fs.writeFileSync('src/app/not-found.tsx', [
+                "import { " + nfClientName + " } from './_not-found-client'",
+                '',
+                'export default function NotFoundPage() {',
+                '  return <' + nfClientName + ' />',
+                '}',
+                '',
+              ].join('\n'));
+              console.log('Created src/app/not-found.tsx + _not-found-client.tsx');
             }
           }
 
