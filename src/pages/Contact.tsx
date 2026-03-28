@@ -30,20 +30,20 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+254 722 906 974", "+254 733 000 000"],
-      action: "tel:+254722906974"
+      details: ["+254 0113 417658"],
+      action: "tel:+254113417658"
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["info@acainsuranceagency.co.ke", "support@acainsuranceagency.co.ke"],
+      details: ["info@acainsuranceagency.co.ke"],
       action: "mailto:info@acainsuranceagency.co.ke"
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      details: ["CBD, Nairobi", "Kenya"],
-      action: "https://maps.google.com"
+      details: ["Blessed House, Opp. Garden City", "Thika Road, 2nd Flr Room 205"],
+      action: "https://www.google.com/maps/search/Blessed+House+Garden+City+Thika+Road+Nairobi"
     }
   ];
 
@@ -172,12 +172,12 @@ const Contact = () => {
             <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <h2 className="text-4xl font-bold text-foreground mb-6">Visit Our Office</h2>
               <p className="text-muted-foreground mb-8 text-lg">
-                Located in the heart of Nairobi's CBD, we're easy to find and ready to serve you.
+                Blessed House, Opposite Garden City, Thika Road — 2nd Floor, Room 205.
               </p>
 
               <Card className="overflow-hidden border-2 border-accent/20 shadow-xl">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127641.82804635092!2d36.70730744956052!3d-1.3028617540103258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7936!2d36.8774!3d-1.2280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f3e4b1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2sGarden+City+Mall!5e0!3m2!1sen!2ske"
                   width="100%"
                   height="450"
                   style={{ border: 0 }}
@@ -204,7 +204,7 @@ const Contact = () => {
 
       {/* WhatsApp Float Button */}
       <button
-        onClick={() => window.open('https://wa.me/254722906974', '_blank')}
+        onClick={() => window.open('https://wa.me/254113417658', '_blank')}
         className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-[#25D366] hover:bg-[#20BA5A] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all animate-pulse-glow"
         aria-label="Chat on WhatsApp"
       >

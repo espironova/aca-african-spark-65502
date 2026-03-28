@@ -79,20 +79,20 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-medium">Nairobi Office</p>
-                  <p className="text-sm text-primary-foreground/80">CBD, Nairobi, Kenya</p>
+                  <p className="font-medium">Head Office</p>
+                  <p className="text-sm text-primary-foreground/80">Blessed House, Opp. Garden City, Thika Road, 2nd Flr Room 205</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-accent flex-shrink-0" />
                 <div>
-                  <p className="text-primary-foreground/80">+254 700 000 000</p>
+                  <p className="text-primary-foreground/80">+254 0113 417658</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-accent flex-shrink-0" />
                 <div>
-                  <p className="text-primary-foreground/80">info@acainsurance.co.ke</p>
+                  <p className="text-primary-foreground/80">info@acainsuranceagency.co.ke</p>
                 </div>
               </div>
             </div>
@@ -158,7 +158,7 @@ const Footer = () => {
       <Button
         size="icon"
         className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-accent hover:bg-accent/90 shadow-2xl animate-pulse-glow z-50 group"
-        onClick={() => window.open('https://wa.me/254700000000', '_blank')}
+        onClick={() => window.open('https://wa.me/254113417658', '_blank')}
       >
         <MessageCircle className="w-8 h-8 text-accent-foreground group-hover:scale-110 transition-transform" />
       </Button>
