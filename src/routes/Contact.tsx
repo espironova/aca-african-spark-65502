@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -54,12 +56,14 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=2000&q=80"
-            alt="Nairobi Skyline"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=2000&q=80"}
+          alt="Nairobi Skyline"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
         </div>
 

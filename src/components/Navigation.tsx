@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { useState, useEffect } from "react";
 import { ChevronDown, Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,11 +42,13 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <NavLink to="/" className="flex items-center group">
-            <img 
-              src={acaLogo} 
-              alt="ACA Insurance - The Future is Safe" 
-              className="h-14 md:h-16 transform group-hover:scale-105 transition-transform"
-            />
+            <Image
+          src={acaLogo}
+          alt="ACA Insurance - The Future is Safe"
+          width={180}
+          height={64}
+          className="h-14 md:h-16 transform group-hover:scale-105 transition-transform w-auto"
+        />
           </NavLink>
 
           {/* Desktop Menu */}

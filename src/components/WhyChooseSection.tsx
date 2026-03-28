@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { Award, Users, Heart, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState, useRef } from "react";
@@ -60,15 +62,12 @@ const WhyChooseSection = () => {
       {/* Parallax Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary to-background z-10" />
-        <img 
+        <Image
           src={areYouCovered}
           alt="Are you covered - Insurance protection"
-          className="w-full h-full object-cover opacity-10"
-          loading="lazy"
-          style={{
-            transform: isVisible ? 'translateY(-50px)' : 'translateY(0)',
-            transition: 'transform 8s ease-out'
-          }}
+          fill
+          className="object-cover opacity-10"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 

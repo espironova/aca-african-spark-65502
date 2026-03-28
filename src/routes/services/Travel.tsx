@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Plane, Globe, Luggage, FileCheck, CheckCircle2, MessageCircle } from "lucide-react";
@@ -28,12 +29,14 @@ const Travel = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000&q=80"
-            alt="African traveler at airport"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000&q=80"}
+          alt="African traveler at airport"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
@@ -146,12 +149,13 @@ const Travel = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy travelers"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy travelers"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 

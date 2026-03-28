@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -91,12 +93,13 @@ const TestimonialsSection = () => {
                   <div className="flex flex-col md:flex-row items-center gap-8">
                     <div className="flex-shrink-0">
                       <div className="relative">
-                        <img
-                          src={testimonial.image}
-                          alt={testimonial.name}
-                          className="w-32 h-32 rounded-full object-cover border-4 border-accent shadow-lg"
-                          loading="lazy"
-                        />
+                        <Image
+          src={testimonial.image}
+          alt={testimonial.name}
+          width={180}
+          height={64}
+          className="w-32 h-32 rounded-full object-cover border-4 border-accent shadow-lg w-auto"
+        />
                         <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-accent rounded-full flex items-center justify-center">
                           <Star className="w-6 h-6 text-accent-foreground fill-current" />
                         </div>

@@ -1,24 +1,25 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Sprout, Wheat, Tractor, Cloud, CheckCircle2, MessageCircle } from "lucide-react";
+import { Heart, Users, Building2, UserCheck, CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const Agriculture = () => {
+const Medical = () => {
   const benefits = [
-    "Livestock insurance coverage",
-    "Crop failure protection",
-    "Farm equipment and machinery",
-    "Weather-related damage cover",
-    "Disease and pest protection",
-    "Post-harvest loss coverage"
+    "Inpatient and outpatient care",
+    "Maternity and newborn coverage",
+    "Prescription medications",
+    "Specialist consultations",
+    "Emergency medical services",
+    "Dental and optical care"
   ];
 
   const coverageTypes = [
-    { title: "Livestock Cover", description: "Cattle, goats, and poultry protection", icon: Sprout },
-    { title: "Crop Insurance", description: "Protection against crop failure", icon: Wheat },
-    { title: "Equipment Cover", description: "Tractors and farm machinery", icon: Tractor },
-    { title: "Weather Protection", description: "Coverage for weather risks", icon: Cloud }
+    { title: "Individual Cover", description: "Personalized health insurance", icon: UserCheck },
+    { title: "Family Plans", description: "Protect your entire family", icon: Users },
+    { title: "Group Medical", description: "Employee health benefits", icon: Building2 },
+    { title: "Life Insurance", description: "Financial security for loved ones", icon: Heart }
   ];
 
   return (
@@ -28,30 +29,32 @@ const Agriculture = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=2000&q=80"
-            alt="African farmer in field"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=2000&q=80"}
+          alt="African doctor with patient"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
-        {/* Animated Leaf Icon */}
-        <div className="absolute top-20 left-10 z-10 pointer-events-none">
-          <Sprout className="w-16 h-16 text-accent animate-float opacity-70" />
+        {/* Animated Heart Icon */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+          <Heart className="w-32 h-32 text-accent/20 animate-pulse" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="animate-fade-in">
             <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <Sprout className="w-12 h-12 text-accent-foreground" />
+              <Heart className="w-12 h-12 text-accent-foreground" />
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6">
-              Agriculture Insurance
+              Medical & Life Insurance
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
-              ACA supports farmers with insurance that protects crops, livestock, and equipment
+              Healthcare is peace of mind. ACA provides health and life cover for individuals, families, and organizations
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 
@@ -80,10 +83,10 @@ const Agriculture = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Comprehensive Farm Protection
+              Healthcare Solutions for Everyone
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Protecting Kenya's farmers from field to harvest
+              From individuals to large organizations, we have you covered
             </p>
           </div>
 
@@ -116,10 +119,10 @@ const Agriculture = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                What's Protected
+                Comprehensive Health Benefits
               </h2>
               <p className="text-xl text-muted-foreground">
-                Comprehensive coverage for your farming operations
+                Access quality healthcare without breaking the bank
               </p>
             </div>
 
@@ -146,21 +149,22 @@ const Agriculture = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80"
-            alt="Bountiful harvest"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy African family"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in">
-            Protect Your Farm and Livelihood
+            Invest in Your Health Today
           </h2>
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            From crop failure to bountiful harvest - ACA supports Kenyan farmers every step of the way
+            Quality healthcare shouldn't be a luxury - let ACA make it accessible
           </p>
 
           <Button 
@@ -179,4 +183,4 @@ const Agriculture = () => {
   );
 };
 
-export default Agriculture;
+export default Medical;
