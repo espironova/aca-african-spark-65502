@@ -85,6 +85,15 @@ jobs:
           }
           NODEJS
 
+      # ─── 4b-pre: WIPE STALE src/app ─────────────────────────────────────────
+      # Lovable commits src/app/[[...slug]]/ and src/app/layout.tsx to main.
+      # If these survive into the build they conflict with our generated pages.
+      # Using shell rm -rf here (not Node.js) is the most reliable guarantee —
+      # it runs unconditionally before the migration Node script.
+      - name: "Step 4b-pre — Remove stale src/app from main branch"
+        if: steps.check_flag.outputs.enabled == 'true'
+        run: rm -rf src/app && echo "Cleared src/app/"
+
       # ─── 4b. INLINE MIGRATION ────────────────────────────────────────────────
       # Reads /tmp/routes.json. If routes were extracted, generates individual
       # Next.js page files (one per route) — full SSR, Google sees real HTML.
