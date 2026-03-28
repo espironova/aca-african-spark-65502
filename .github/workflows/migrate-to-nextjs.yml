@@ -410,7 +410,10 @@ jobs:
           const fs   = require('fs');
           const path = require('path');
 
-          const CLIENT_HOOKS = /\b(useState|useEffect|useRef|useCallback|useMemo|useContext|useReducer|useLayoutEffect|useImperativeHandle|useDebugValue|useDeferredValue|useId|useInsertionEffect|useSyncExternalStore|useTransition)\b/;
+          // Matches React built-in hooks AND any custom hook call (use[A-Z]...).
+          // This ensures files like toaster.tsx (which calls useToast()) get
+          // 'use client' even though they don't directly call useState/useEffect.
+          const CLIENT_HOOKS = /\b(useState|useEffect|useRef|useCallback|useMemo|useContext|useReducer|useLayoutEffect|useImperativeHandle|useDebugValue|useDeferredValue|useId|useInsertionEffect|useSyncExternalStore|useTransition)\b|\buse[A-Z]\w*\s*\(/;
 
           function walk(dir) {
             for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
