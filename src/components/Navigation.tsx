@@ -58,25 +58,31 @@ const Navigation = () => {
             
             {/* Services Dropdown */}
             <div 
-              className="relative group"
+              className="relative"
               onMouseEnter={() => setOpenDropdown('services')}
               onMouseLeave={() => setOpenDropdown(null)}
             >
-              <button className="text-primary-foreground hover:text-accent transition-colors font-medium flex items-center gap-1">
+              <button 
+                className="text-primary-foreground hover:text-accent transition-colors font-medium flex items-center gap-1 py-2"
+                onClick={() => setOpenDropdown(openDropdown === 'services' ? null : 'services')}
+              >
                 Services
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === 'services' ? 'rotate-180' : ''}`} />
               </button>
               {openDropdown === 'services' && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-background/80 backdrop-blur-xl border border-accent/20 rounded-lg shadow-xl py-2 z-50 animate-fade-in">
-                  {services.map((service) => (
-                    <NavLink
-                      key={service.name}
-                      to={service.link}
-                      className="block px-4 py-3 text-foreground hover:bg-accent/10 hover:text-accent transition-colors"
-                    >
-                      {service.name}
-                    </NavLink>
-                  ))}
+                <div className="absolute top-full left-0 pt-1 z-50">
+                  <div className="w-64 bg-background/90 backdrop-blur-xl border border-accent/20 rounded-lg shadow-xl py-2 animate-fade-in">
+                    {services.map((service) => (
+                      <NavLink
+                        key={service.name}
+                        to={service.link}
+                        className="block px-4 py-3 text-foreground hover:bg-accent/10 hover:text-accent transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        {service.name}
+                      </NavLink>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
