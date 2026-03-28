@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { NavLink } from "@/components/NavLink";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -97,12 +98,14 @@ const AboutUs = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=2000&q=80"
-            alt="ACA Insurance Team - African Professionals"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=2000&q=80"}
+          alt="ACA Insurance Team - African Professionals"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
         </div>
         
@@ -154,12 +157,13 @@ const AboutUs = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
-              <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
-                alt="ACA Insurance professionals collaborating in Kenya"
-                className="rounded-2xl shadow-2xl"
-                loading="lazy"
-              />
+              <Image
+          src={"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"}
+          alt="ACA Insurance professionals collaborating in Kenya"
+          width={180}
+          height={64}
+          className="rounded-2xl shadow-2xl w-auto"
+        />
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -273,12 +277,13 @@ const AboutUs = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
+                  <Image
+          src={member.image}
+          alt={member.name}
+          width={180}
+          height={64}
+          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 w-auto"
+        />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                     <p className="text-primary-foreground text-sm">{member.bio}</p>
                   </div>
@@ -366,12 +371,13 @@ const AboutUs = () => {
       {/* Final CTA */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy Kenyan family"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy Kenyan family"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-accent/80" />
         </div>
 

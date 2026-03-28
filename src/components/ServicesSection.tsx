@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import { Car, Home, Heart, Briefcase, Sprout, Plane } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import motorInsurance from "@/assets/motor-insurance.jpg";
-import homeInsurance from "@/assets/home-insurance.jfif";
+import homeInsurance from "@/assets/home-insurance.jpg";
 import medicalInsurance from "@/assets/medical-insurance.jpg";
 import businessInsurance from "@/assets/business-insurance.webp";
-import travelInsurance from "@/assets/travel-insurance.jfif";
+import travelInsurance from "@/assets/travel-insurance.jpg";
 
 const ServicesSection = () => {
   const services = [
@@ -75,12 +76,13 @@ const ServicesSection = () => {
               >
                 <div className="relative h-48 overflow-hidden">
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.color} z-10 opacity-90 group-hover:opacity-80 transition-opacity`} />
-                  <img 
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
+                  <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
                   <div className="absolute inset-0 flex items-center justify-center z-20">
                     <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                       <Icon className="w-10 h-10 text-accent-foreground" />

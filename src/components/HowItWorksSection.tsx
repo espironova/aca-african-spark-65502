@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { Search, FileCheck, Shield } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
@@ -45,15 +47,12 @@ const HowItWorksSection = () => {
       {/* Background with Parallax */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-primary/90 z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1920&q=80"
+        <Image
+          src={"https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1920&q=80"}
           alt="Nairobi cityscape"
-          className="w-full h-full object-cover opacity-40"
-          loading="lazy"
-          style={{
-            transform: isVisible ? 'scale(1.1)' : 'scale(1)',
-            transition: 'transform 10s ease-out'
-          }}
+          fill
+          className="object-cover opacity-40"
+          sizes="100vw"
         />
       </div>
 

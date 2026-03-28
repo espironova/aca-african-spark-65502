@@ -1,24 +1,25 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Home as HomeIcon, Shield, Flame, Users2, CheckCircle2, MessageCircle } from "lucide-react";
+import { Briefcase, Shield, Building, Hammer, CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const Home = () => {
+const Business = () => {
   const benefits = [
-    "Building structure coverage",
-    "Contents and belongings protection",
-    "Fire and perils cover",
-    "Theft and burglary protection",
-    "Natural disaster coverage",
-    "Alternative accommodation costs"
+    "Fire and burglary protection",
+    "Business interruption cover",
+    "Work injury benefits (WIBA)",
+    "Professional indemnity",
+    "Employer's liability",
+    "Equipment and machinery cover"
   ];
 
   const coverageTypes = [
-    { title: "Building Cover", description: "Protection for your home structure", icon: HomeIcon },
-    { title: "Contents Cover", description: "Safeguard your belongings", icon: Shield },
-    { title: "Fire & Perils", description: "Protection against fire damage", icon: Flame },
-    { title: "Domestic Staff", description: "Cover for house employees", icon: Users2 }
+    { title: "Shop Insurance", description: "Retail and small business cover", icon: Building },
+    { title: "Office Coverage", description: "Professional workspace protection", icon: Briefcase },
+    { title: "Equipment Cover", description: "Tools and machinery insurance", icon: Hammer },
+    { title: "Liability Protection", description: "Legal and professional indemnity", icon: Shield }
   ];
 
   return (
@@ -28,30 +29,32 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=2000&q=80"
-            alt="African family home"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=2000&q=80"}
+          alt="African business owner"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
-        {/* Animated Home Icon */}
-        <div className="absolute top-20 right-0 z-10 pointer-events-none">
-          <HomeIcon className="w-16 h-16 text-accent animate-bounce opacity-70" />
+        {/* Animated Briefcase Icon */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+          <Briefcase className="w-20 h-20 text-accent animate-spin-slow opacity-70" style={{ animationDuration: '8s' }} />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="animate-fade-in">
             <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <HomeIcon className="w-12 h-12 text-accent-foreground" />
+              <Briefcase className="w-12 h-12 text-accent-foreground" />
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6">
-              Home Insurance
+              Business Insurance
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
-              Protect your home and belongings from risks like fire, theft, and natural disasters
+              Protect your business and employees against risks like fire, theft, or loss of profit
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 
@@ -80,10 +83,10 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Comprehensive Home Protection
+              Comprehensive Business Protection
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Choose the coverage that fits your needs and budget
+              From startups to established enterprises, we secure your business future
             </p>
           </div>
 
@@ -107,6 +110,16 @@ const Home = () => {
               );
             })}
           </div>
+
+          {/* Business Counter */}
+          <div className="mt-16 text-center">
+            <Card className="inline-block border-2 border-accent/30 shadow-xl animate-pulse-glow">
+              <CardContent className="p-8">
+                <p className="text-5xl md:text-7xl font-bold text-accent mb-2">500+</p>
+                <p className="text-xl text-muted-foreground">Kenyan Businesses Protected</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
@@ -116,10 +129,10 @@ const Home = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                What's Covered
+                What's Included
               </h2>
               <p className="text-xl text-muted-foreground">
-                Comprehensive protection for your home and peace of mind for your family
+                Comprehensive coverage for your business operations
               </p>
             </div>
 
@@ -146,21 +159,22 @@ const Home = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy family at home"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=2000&q=80"}
+          alt="Successful business team"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in">
-            Protect Your Home Today
+            Secure Your Business Future Today
           </h2>
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Your home is your sanctuary - let ACA Insurance help keep it safe
+            From small shops to large enterprises, ACA Insurance has your business covered
           </p>
 
           <Button 
@@ -179,4 +193,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Business;
