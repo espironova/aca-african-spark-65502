@@ -298,25 +298,39 @@ jobs:
                 : '';
               const metadataImport = pagesMeta ? "import type { Metadata } from 'next'" : '';
 
-              // Use dynamic(ssr:false) so react-router-dom remnants never crash prerender.
-              // The page.tsx is still a server component (no 'use client'), so
-              // export const metadata works and <head> tags are SSR'd for SEO.
+              // Next.js 16: dynamic(ssr:false) must live in a 'use client' file.
+              // Pattern: server page.tsx (exports metadata) imports client _client.tsx
+              // (which holds the dynamic import). This satisfies both constraints.
               const dynName = route.component + 'Dynamic';
+              const clientName = route.component + 'Client';
+
+              // _client.tsx — 'use client', wraps component with dynamic(ssr:false)
+              fs.writeFileSync(path.join(pageDir, '_client.tsx'), [
+                "'use client'",
+                "import dynamic from 'next/dynamic'",
+                '',
+                "const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })",
+                '',
+                'export function ' + clientName + '() {',
+                '  return <' + dynName + ' />',
+                '}',
+                '',
+              ].join('\n'));
+
+              // page.tsx — server component, exports per-page metadata, renders client wrapper
               const pageLines = [];
               if (metadataImport) pageLines.push(metadataImport);
-              pageLines.push("import dynamic from 'next/dynamic'");
+              pageLines.push("import { " + clientName + " } from './_client'");
               if (pageMeta.trim()) {
                 pageLines.push('');
                 pageLines.push(pageMeta.trim());
               }
               pageLines.push('');
-              pageLines.push("const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })");
-              pageLines.push('');
               pageLines.push('export default function ' + componentName + '() {');
-              pageLines.push('  return <' + dynName + ' />');
+              pageLines.push('  return <' + clientName + ' />');
               pageLines.push('}', '');
               fs.writeFileSync(path.join(pageDir, 'page.tsx'), pageLines.join('\n'));
-              console.log('Created page: ' + pageDir + '/page.tsx -> ' + relImport);
+              console.log('Created page: ' + pageDir + '/page.tsx + _client.tsx -> ' + relImport);
             }
 
             // ── not-found.tsx ─────────────────────────────────────────────
