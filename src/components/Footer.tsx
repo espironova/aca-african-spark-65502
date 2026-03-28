@@ -140,12 +140,15 @@ const Footer = () => {
           <p className="text-primary-foreground/80 text-sm text-center md:text-left">
             © {currentYear} ACA Insurance Agency. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#privacy" className="text-primary-foreground/80 hover:text-accent transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#terms" className="text-primary-foreground/80 hover:text-accent transition-colors">
-              Terms of Service
+          <div className="text-sm text-primary-foreground/80">
+            Powered by{" "}
+            <a 
+              href="https://www.espiranova.co.ke/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-accent hover:text-accent/80 font-semibold transition-colors"
+            >
+              EspiraNova
             </a>
           </div>
         </div>
