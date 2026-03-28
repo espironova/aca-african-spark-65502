@@ -201,13 +201,7 @@ jobs:
           const routeData = JSON.parse(fs.readFileSync('/tmp/routes.json', 'utf8'));
           const useFallback = routeData.fallback === true;
 
-          // ── Wipe any stale src/app/ from main branch or previous runs ────────
-          // Lovable may push src/app/[[...slug]]/ or layout.tsx from an earlier
-          // migration; delete the whole tree so our generated files are authoritative.
-          if (fs.existsSync('src/app')) {
-            fs.rmSync('src/app', { recursive: true, force: true });
-            console.log('Cleared stale src/app/');
-          }
+          // ── Create src/app/ ─────────────────────────────────────────────────
           fs.mkdirSync('src/app', { recursive: true });
 
           // ── layout.tsx ──────────────────────────────────────────────────────
@@ -298,68 +292,39 @@ jobs:
                 : '';
               const metadataImport = pagesMeta ? "import type { Metadata } from 'next'" : '';
 
-              // Next.js 16: dynamic(ssr:false) must live in a 'use client' file.
-              // Pattern: server page.tsx (exports metadata) imports client _client.tsx
-              // (which holds the dynamic import). This satisfies both constraints.
+              // Use dynamic(ssr:false) so react-router-dom remnants never crash prerender.
+              // The page.tsx is still a server component (no 'use client'), so
+              // export const metadata works and <head> tags are SSR'd for SEO.
               const dynName = route.component + 'Dynamic';
-              const clientName = route.component + 'Client';
-
-              // _client.tsx — 'use client', wraps component with dynamic(ssr:false)
-              fs.writeFileSync(path.join(pageDir, '_client.tsx'), [
-                "'use client'",
-                "import dynamic from 'next/dynamic'",
-                '',
-                "const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })",
-                '',
-                'export function ' + clientName + '() {',
-                '  return <' + dynName + ' />',
-                '}',
-                '',
-              ].join('\n'));
-
-              // page.tsx — server component, exports per-page metadata, renders client wrapper
               const pageLines = [];
               if (metadataImport) pageLines.push(metadataImport);
-              pageLines.push("import { " + clientName + " } from './_client'");
+              pageLines.push("import dynamic from 'next/dynamic'");
               if (pageMeta.trim()) {
                 pageLines.push('');
                 pageLines.push(pageMeta.trim());
               }
               pageLines.push('');
+              pageLines.push("const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })");
+              pageLines.push('');
               pageLines.push('export default function ' + componentName + '() {');
-              pageLines.push('  return <' + clientName + ' />');
+              pageLines.push('  return <' + dynName + ' />');
               pageLines.push('}', '');
               fs.writeFileSync(path.join(pageDir, 'page.tsx'), pageLines.join('\n'));
-              console.log('Created page: ' + pageDir + '/page.tsx + _client.tsx -> ' + relImport);
+              console.log('Created page: ' + pageDir + '/page.tsx -> ' + relImport);
             }
 
             // ── not-found.tsx ─────────────────────────────────────────────
             if (notFound && notFound.importSrc) {
               const nfRelPath = notFound.importSrc.replace(/^\.\/pages\//, '');
-              // Same two-file pattern as regular pages: server not-found.tsx → client wrapper
-              const nfDynName = notFound.component + 'Dynamic';
-              const nfClientName = notFound.component + 'Client';
-              const nfRelImport = '../routes/' + nfRelPath;
-              fs.writeFileSync('src/app/_not-found-client.tsx', [
-                "'use client'",
-                "import dynamic from 'next/dynamic'",
-                '',
-                "const " + nfDynName + " = dynamic(() => import('" + nfRelImport + "'), { ssr: false })",
-                '',
-                'export function ' + nfClientName + '() {',
-                '  return <' + nfDynName + ' />',
-                '}',
-                '',
-              ].join('\n'));
               fs.writeFileSync('src/app/not-found.tsx', [
-                "import { " + nfClientName + " } from './_not-found-client'",
+                "import " + notFound.component + " from '../routes/" + nfRelPath + "'",
                 '',
                 'export default function NotFoundPage() {',
-                '  return <' + nfClientName + ' />',
+                '  return <' + notFound.component + ' />',
                 '}',
                 '',
               ].join('\n'));
-              console.log('Created src/app/not-found.tsx + _not-found-client.tsx');
+              console.log('Created src/app/not-found.tsx');
             }
           }
 
@@ -565,24 +530,15 @@ jobs:
               changed = true;
               totalReplaced++;
 
-              // Extract attribute values, tracking whether they were JSX expressions
-              // or string literals — critical for re-emitting correct JSX syntax.
-              // get() strips delimiters, so we must remember the original form.
-              const getAttr = (name) => {
-                const exprM = attrs.match(new RegExp(name + '=\\{([^}]+)\\}'));
-                if (exprM) return { value: exprM[1].trim(), isExpr: true };
-                const strM = attrs.match(new RegExp(name + '=["\']([^"\']+)["\']'));
-                if (strM) return { value: strM[1].trim(), isExpr: false };
-                return { value: '', isExpr: false };
+              // Extract attribute values
+              const get = (name) => {
+                const m = attrs.match(new RegExp(name + '=\\{([^}]+)\\}|' + name + '=["\']([^"\']+)["\']'));
+                return m ? (m[1] || m[2] || '').trim() : '';
               };
-              const srcInfo     = getAttr('src');
-              const altInfo     = getAttr('alt');
-              const classInfo   = getAttr('className');
-              const loadingInfo = getAttr('loading');
-              const srcVal      = srcInfo.value;
-              const altVal      = altInfo.value;
-              const classVal    = classInfo.value;
-              const loadingVal  = loadingInfo.value;
+              const srcVal     = get('src');
+              const altVal     = get('alt');
+              const classVal   = get('className');
+              const loadingVal = get('loading');
 
               // Collect external hostnames
               const urlMatch = srcVal.match(/https?:\/\/([^/'"]+)/);
@@ -599,20 +555,18 @@ jobs:
                 .trim();
 
               const isPriority = loadingVal === 'eager';
-              // sizes: full-width for external backgrounds, responsive for card images
+              // sizes: full-width for Unsplash backgrounds, responsive for cards
               const isBackground = classVal.includes('absolute') || attrs.includes('inset-0')
-                || srcVal.startsWith('https://');
+                || srcVal.startsWith('"https://') || srcVal.startsWith("'https://");
               const sizes = isBackground
                 ? '"100vw"'
                 : '"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"';
 
-              // String literals need quotes inside {}: src={"https://..."}
-              // JSX expressions keep bare identifier: src={variable}
-              const srcAttr = srcInfo.isExpr
+              const srcAttr = (srcVal.startsWith('"') || srcVal.startsWith("'"))
                 ? 'src={' + srcVal + '}'
-                : 'src={"' + srcVal + '"}';
+                : 'src={' + srcVal + '}';
               const altAttr = altVal
-                ? (altInfo.isExpr ? 'alt={' + altVal + '}' : 'alt="' + altVal + '"')
+                ? ('alt=' + ((altVal.startsWith('"') || altVal.startsWith("'")) ? altVal : '"' + altVal + '"'))
                 : 'alt=""';
 
               if (isFill) {
