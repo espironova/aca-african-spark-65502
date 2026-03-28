@@ -134,7 +134,7 @@ const AboutUs = () => {
               size="lg" 
               variant="outline" 
               className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-              onClick={() => window.open('https://wa.me/254722906974', '_blank')}
+              onClick={() => window.open('https://wa.me/254113417658', '_blank')}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
               Talk to an Advisor
@@ -412,7 +412,7 @@ const AboutUs = () => {
               size="lg" 
               variant="outline"
               className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary animate-bounce-subtle"
-              onClick={() => window.open('https://wa.me/254722906974', '_blank')}
+              onClick={() => window.open('https://wa.me/254113417658', '_blank')}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
               Chat with Us
