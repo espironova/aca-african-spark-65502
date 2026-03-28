@@ -301,39 +301,69 @@ jobs:
                 : '';
               const metadataImport = pagesMeta ? "import type { Metadata } from 'next'" : '';
 
-              // Use dynamic(ssr:false) so react-router-dom remnants never crash prerender.
-              // The page.tsx is still a server component (no 'use client'), so
-              // export const metadata works and <head> tags are SSR'd for SEO.
+              // Two-file pattern: server page.tsx (exports metadata) + 'use client' _client.tsx
+              // (holds dynamic ssr:false). This satisfies both constraints:
+              // - export const metadata only works in Server Components (no 'use client')
+              // - dynamic(ssr:false) is forbidden in Server Components
               const dynName = route.component + 'Dynamic';
+              const clientName = route.component + 'Client';
+
+              // _client.tsx — 'use client', wraps component with dynamic(ssr:false)
+              fs.writeFileSync(path.join(pageDir, '_client.tsx'), [
+                "'use client'",
+                "import dynamic from 'next/dynamic'",
+                '',
+                "const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })",
+                '',
+                'export function ' + clientName + '() {',
+                '  return <' + dynName + ' />',
+                '}',
+                '',
+              ].join('\n'));
+
+              // page.tsx — server component, exports per-page metadata, renders client wrapper
               const pageLines = [];
               if (metadataImport) pageLines.push(metadataImport);
-              pageLines.push("import dynamic from 'next/dynamic'");
+              pageLines.push("import { " + clientName + " } from './_client'");
               if (pageMeta.trim()) {
                 pageLines.push('');
                 pageLines.push(pageMeta.trim());
               }
               pageLines.push('');
-              pageLines.push("const " + dynName + " = dynamic(() => import('" + relImport + "'), { ssr: false })");
-              pageLines.push('');
               pageLines.push('export default function ' + componentName + '() {');
-              pageLines.push('  return <' + dynName + ' />');
+              pageLines.push('  return <' + clientName + ' />');
               pageLines.push('}', '');
               fs.writeFileSync(path.join(pageDir, 'page.tsx'), pageLines.join('\n'));
               console.log('Created page: ' + pageDir + '/page.tsx -> ' + relImport);
             }
 
-            // ── not-found.tsx ─────────────────────────────────────────────
+            // ── not-found.tsx (two-file pattern) ─────────────────────────
             if (notFound && notFound.importSrc) {
               const nfRelPath = notFound.importSrc.replace(/^\.\/pages\//, '');
-              fs.writeFileSync('src/app/not-found.tsx', [
-                "import " + notFound.component + " from '../routes/" + nfRelPath + "'",
+              const nfDynName = notFound.component + 'Dynamic';
+              const nfClientName = notFound.component + 'Client';
+              // _not-found-client.tsx — 'use client', wraps component with dynamic(ssr:false)
+              fs.writeFileSync('src/app/_not-found-client.tsx', [
+                "'use client'",
+                "import dynamic from 'next/dynamic'",
                 '',
-                'export default function NotFoundPage() {',
-                '  return <' + notFound.component + ' />',
+                "const " + nfDynName + " = dynamic(() => import('../routes/" + nfRelPath + "'), { ssr: false })",
+                '',
+                'export function ' + nfClientName + '() {',
+                '  return <' + nfDynName + ' />',
                 '}',
                 '',
               ].join('\n'));
-              console.log('Created src/app/not-found.tsx');
+              // not-found.tsx — server component, renders client wrapper
+              fs.writeFileSync('src/app/not-found.tsx', [
+                "import { " + nfClientName + " } from './_not-found-client'",
+                '',
+                'export default function NotFoundPage() {',
+                '  return <' + nfClientName + ' />',
+                '}',
+                '',
+              ].join('\n'));
+              console.log('Created src/app/not-found.tsx (two-file pattern)');
             }
           }
 
@@ -539,15 +569,22 @@ jobs:
               changed = true;
               totalReplaced++;
 
-              // Extract attribute values
-              const get = (name) => {
-                const m = attrs.match(new RegExp(name + '=\\{([^}]+)\\}|' + name + '=["\']([^"\']+)["\']'));
-                return m ? (m[1] || m[2] || '').trim() : '';
+              // Extract attribute values — returns {value, isExpr} to preserve quoting
+              const getAttr = (name) => {
+                const exprM = attrs.match(new RegExp(name + '=\\{([^}]+)\\}'));
+                if (exprM) return { value: exprM[1].trim(), isExpr: true };
+                const strM = attrs.match(new RegExp(name + '=["\']([^"\']+)["\']'));
+                if (strM) return { value: strM[1].trim(), isExpr: false };
+                return { value: '', isExpr: false };
               };
-              const srcVal     = get('src');
-              const altVal     = get('alt');
-              const classVal   = get('className');
-              const loadingVal = get('loading');
+              const srcInfo     = getAttr('src');
+              const altInfo     = getAttr('alt');
+              const classInfo   = getAttr('className');
+              const loadingInfo = getAttr('loading');
+              const srcVal     = srcInfo.value;
+              const altVal     = altInfo.value;
+              const classVal   = classInfo.value;
+              const loadingVal = loadingInfo.value;
 
               // Collect external hostnames
               const urlMatch = srcVal.match(/https?:\/\/([^/'"]+)/);
@@ -564,18 +601,17 @@ jobs:
                 .trim();
 
               const isPriority = loadingVal === 'eager';
-              // sizes: full-width for Unsplash backgrounds, responsive for cards
+              // sizes: full-width for external/background images, responsive for cards
               const isBackground = classVal.includes('absolute') || attrs.includes('inset-0')
-                || srcVal.startsWith('"https://') || srcVal.startsWith("'https://");
+                || srcVal.startsWith('https://') || srcVal.startsWith('http://');
               const sizes = isBackground
                 ? '"100vw"'
                 : '"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"';
 
-              const srcAttr = (srcVal.startsWith('"') || srcVal.startsWith("'"))
-                ? 'src={' + srcVal + '}'
-                : 'src={' + srcVal + '}';
+              // Rebuild src/alt JSX attributes with correct quoting
+              const srcAttr = srcInfo.isExpr ? 'src={' + srcVal + '}' : 'src={"' + srcVal + '"}';
               const altAttr = altVal
-                ? ('alt=' + ((altVal.startsWith('"') || altVal.startsWith("'")) ? altVal : '"' + altVal + '"'))
+                ? (altInfo.isExpr ? 'alt={' + altVal + '}' : 'alt="' + altVal + '"')
                 : 'alt=""';
 
               if (isFill) {
@@ -603,9 +639,15 @@ jobs:
             });
 
             if (changed) {
-              // Inject next/image import if not already present
+              // Inject next/image import if not already present.
+              // MUST go after "use client" directive (if present) — placing it before
+              // causes "use client must be the first line" build errors.
               if (!src.includes("from 'next/image'") && !src.includes('from "next/image"')) {
-                src = "import Image from 'next/image'\n" + src;
+                if (/^["']use client["']/.test(src)) {
+                  src = src.replace(/^(["']use client["'];?\n)/, "$1import Image from 'next/image'\n");
+                } else {
+                  src = "import Image from 'next/image'\n" + src;
+                }
               }
               fs.writeFileSync(file, src);
               console.log('Migrated img tags in: ' + file);
