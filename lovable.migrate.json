@@ -1,5 +1,69 @@
-// lovable.migrate.json
 {
   "migrate": true,
-  "notes": "Lovable frontend — convert to Next.js SSR on every push"
+  "notes": "Lovable frontend — convert to Next.js SSR on every push",
+
+  "title": "ACA Insurance Agency - The Future is Safe | Trusted Insurance in Kenya",
+  "description": "ACA Insurance Agency offers affordable, reliable insurance for Kenyan families and businesses. Motor, Home, Medical, Life, Business, Agriculture & Travel insurance. Licensed by IRA.",
+  "siteUrl": "https://aca-insurance.co.ke",
+  "ogImage": "/og-image.jpg",
+  "ogType": "website",
+  "twitterHandle": "@ACAInsuranceKE",
+  "twitterCard": "summary_large_image",
+  "locale": "en_KE",
+
+  "pages": {
+    "/": {
+      "title": "ACA Insurance Agency - The Future is Safe | Trusted Insurance in Kenya",
+      "description": "ACA Insurance Agency offers affordable, reliable insurance for Kenyan families and businesses. Licensed by IRA Kenya."
+    },
+    "/about": {
+      "title": "About ACA Insurance Agency",
+      "description": "Learn about ACA Insurance Agency — our mission, team, and commitment to protecting Kenyan families and businesses since our founding."
+    },
+    "/services": {
+      "title": "Insurance Products & Services",
+      "description": "Explore ACA Insurance Agency's full range of products: Motor, Home, Medical, Life, Business, Agriculture, and Travel insurance."
+    },
+    "/services/motor": {
+      "title": "Motor Vehicle Insurance Kenya",
+      "description": "Comprehensive and third-party motor vehicle insurance tailored for Kenyan drivers. Get covered today with ACA Insurance Agency."
+    },
+    "/services/home": {
+      "title": "Home & Property Insurance Kenya",
+      "description": "Protect your home and valuables with ACA's affordable home insurance plans. Cover for theft, fire, and natural disasters."
+    },
+    "/services/medical": {
+      "title": "Medical & Health Insurance Kenya",
+      "description": "Affordable medical insurance for individuals and families in Kenya. Access quality healthcare without the financial burden."
+    },
+    "/services/business": {
+      "title": "Business Insurance Kenya",
+      "description": "Comprehensive business insurance solutions for Kenyan SMEs and corporates. Protect your assets, staff, and operations."
+    },
+    "/services/agriculture": {
+      "title": "Agriculture Insurance Kenya",
+      "description": "Safeguard your farming investment with ACA's agriculture insurance. Coverage for crops, livestock, and farm equipment."
+    },
+    "/services/travel": {
+      "title": "Travel Insurance Kenya",
+      "description": "Travel with confidence — ACA travel insurance covers medical emergencies, trip cancellations, and lost baggage worldwide."
+    },
+    "/contact": {
+      "title": "Contact ACA Insurance Agency",
+      "description": "Get in touch with ACA Insurance Agency. Call +254722906974 or visit us in Nairobi CBD for a free consultation."
+    }
+  },
+
+  "businessSchema": {
+    "type": "InsuranceAgency",
+    "name": "ACA Insurance Agency",
+    "telephone": "+254722906974",
+    "address": {
+      "streetAddress": "CBD",
+      "locality": "Nairobi",
+      "country": "KE"
+    },
+    "areaServed": "Kenya",
+    "priceRange": "$$"
+  }
 }
