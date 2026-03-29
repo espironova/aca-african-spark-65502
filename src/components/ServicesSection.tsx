@@ -81,11 +81,6 @@ const ServicesSection = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                      <Icon className="w-10 h-10 text-accent-foreground" />
-                    </div>
-                  </div>
                 </div>
                 <CardContent className="p-6">
                   <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
