@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { useState } from "react";
 import { Car, Home, Heart, Briefcase, Sprout, Plane, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -87,12 +89,13 @@ const ServiceStoriesCarousel = () => {
               {/* Image Side */}
               <div className="relative h-[400px] md:h-auto overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-br ${currentItem.color} z-10 opacity-80`} />
-                <img
-                  src={currentItem.image}
-                  alt={currentItem.title}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                  loading="lazy"
-                />
+                <Image
+          src={currentItem.image}
+          alt={currentItem.title}
+          fill
+          className="object-cover transition-transform duration-700 hover:scale-110"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
                 <div className="absolute inset-0 z-20 flex items-center justify-center">
                   <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center shadow-lg animate-pulse-glow">
                     <Icon className="w-12 h-12 text-accent-foreground" />

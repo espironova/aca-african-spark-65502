@@ -1,24 +1,25 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Briefcase, Shield, Building, Hammer, CheckCircle2, MessageCircle } from "lucide-react";
+import { Car, Shield, Users, Zap, CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const Business = () => {
+const Motor = () => {
   const benefits = [
-    "Fire and burglary protection",
-    "Business interruption cover",
-    "Work injury benefits (WIBA)",
-    "Professional indemnity",
-    "Employer's liability",
-    "Equipment and machinery cover"
+    "Comprehensive accident coverage",
+    "Third-party liability protection",
+    "Theft and vandalism cover",
+    "Windscreen and glass damage",
+    "Emergency roadside assistance",
+    "Personal accident benefits"
   ];
 
-  const coverageTypes = [
-    { title: "Shop Insurance", description: "Retail and small business cover", icon: Building },
-    { title: "Office Coverage", description: "Professional workspace protection", icon: Briefcase },
-    { title: "Equipment Cover", description: "Tools and machinery insurance", icon: Hammer },
-    { title: "Liability Protection", description: "Legal and professional indemnity", icon: Shield }
+  const vehicleTypes = [
+    { title: "Private Cars", description: "Personal vehicles for daily use", icon: Car },
+    { title: "Commercial Vehicles", description: "Trucks, vans, and delivery vehicles", icon: Shield },
+    { title: "PSV (Matatus & Buses)", description: "Public service vehicles", icon: Users },
+    { title: "Motorcycles", description: "Two-wheelers and boda bodas", icon: Zap }
   ];
 
   return (
@@ -28,30 +29,32 @@ const Business = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=2000&q=80"
-            alt="African business owner"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=2000&q=80"}
+          alt="African driver with car"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
-        {/* Animated Briefcase Icon */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-          <Briefcase className="w-20 h-20 text-accent animate-spin-slow opacity-70" style={{ animationDuration: '8s' }} />
+        {/* Animated Car Icon */}
+        <div className="absolute top-20 left-0 right-0 z-10 overflow-hidden pointer-events-none">
+          <Car className="w-16 h-16 text-accent animate-slide-in opacity-70" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="animate-fade-in">
             <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <Briefcase className="w-12 h-12 text-accent-foreground" />
+              <Car className="w-12 h-12 text-accent-foreground" />
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6">
-              Business Insurance
+              Motor Insurance
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
-              Protect your business and employees against risks like fire, theft, or loss of profit
+              Whether you drive for personal or business use, ACA helps you find the perfect motor insurance policy
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 
@@ -75,20 +78,20 @@ const Business = () => {
         </div>
       </section>
 
-      {/* Coverage Types */}
+      {/* Vehicle Types */}
       <section id="coverage" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Comprehensive Business Protection
+              We Cover All Vehicle Types
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              From startups to established enterprises, we secure your business future
+              Comprehensive and third-party coverage for every vehicle on Kenyan roads
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {coverageTypes.map((type, index) => {
+            {vehicleTypes.map((type, index) => {
               const Icon = type.icon;
               return (
                 <Card 
@@ -107,16 +110,6 @@ const Business = () => {
               );
             })}
           </div>
-
-          {/* Business Counter */}
-          <div className="mt-16 text-center">
-            <Card className="inline-block border-2 border-accent/30 shadow-xl animate-pulse-glow">
-              <CardContent className="p-8">
-                <p className="text-5xl md:text-7xl font-bold text-accent mb-2">500+</p>
-                <p className="text-xl text-muted-foreground">Kenyan Businesses Protected</p>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </section>
 
@@ -129,7 +122,7 @@ const Business = () => {
                 What's Included
               </h2>
               <p className="text-xl text-muted-foreground">
-                Comprehensive coverage for your business operations
+                Comprehensive protection for you and your vehicle
               </p>
             </div>
 
@@ -156,21 +149,22 @@ const Business = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=2000&q=80"
-            alt="Successful business team"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy driver"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in">
-            Secure Your Business Future Today
+            Get Your Motor Insurance Quote Today
           </h2>
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            From small shops to large enterprises, ACA Insurance has your business covered
+            Drive with confidence knowing you're protected by ACA Insurance
           </p>
 
           <Button 
@@ -189,4 +183,4 @@ const Business = () => {
   );
 };
 
-export default Business;
+export default Motor;

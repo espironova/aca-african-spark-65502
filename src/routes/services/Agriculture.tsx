@@ -1,24 +1,25 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Car, Shield, Users, Zap, CheckCircle2, MessageCircle } from "lucide-react";
+import { Sprout, Wheat, Tractor, Cloud, CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const Motor = () => {
+const Agriculture = () => {
   const benefits = [
-    "Comprehensive accident coverage",
-    "Third-party liability protection",
-    "Theft and vandalism cover",
-    "Windscreen and glass damage",
-    "Emergency roadside assistance",
-    "Personal accident benefits"
+    "Livestock insurance coverage",
+    "Crop failure protection",
+    "Farm equipment and machinery",
+    "Weather-related damage cover",
+    "Disease and pest protection",
+    "Post-harvest loss coverage"
   ];
 
-  const vehicleTypes = [
-    { title: "Private Cars", description: "Personal vehicles for daily use", icon: Car },
-    { title: "Commercial Vehicles", description: "Trucks, vans, and delivery vehicles", icon: Shield },
-    { title: "PSV (Matatus & Buses)", description: "Public service vehicles", icon: Users },
-    { title: "Motorcycles", description: "Two-wheelers and boda bodas", icon: Zap }
+  const coverageTypes = [
+    { title: "Livestock Cover", description: "Cattle, goats, and poultry protection", icon: Sprout },
+    { title: "Crop Insurance", description: "Protection against crop failure", icon: Wheat },
+    { title: "Equipment Cover", description: "Tractors and farm machinery", icon: Tractor },
+    { title: "Weather Protection", description: "Coverage for weather risks", icon: Cloud }
   ];
 
   return (
@@ -28,30 +29,32 @@ const Motor = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=2000&q=80"
-            alt="African driver with car"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=2000&q=80"}
+          alt="African farmer in field"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
-        {/* Animated Car Icon */}
-        <div className="absolute top-20 left-0 right-0 z-10 overflow-hidden pointer-events-none">
-          <Car className="w-16 h-16 text-accent animate-slide-in opacity-70" />
+        {/* Animated Leaf Icon */}
+        <div className="absolute top-20 left-10 z-10 pointer-events-none">
+          <Sprout className="w-16 h-16 text-accent animate-float opacity-70" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="animate-fade-in">
             <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <Car className="w-12 h-12 text-accent-foreground" />
+              <Sprout className="w-12 h-12 text-accent-foreground" />
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6">
-              Motor Insurance
+              Agriculture Insurance
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
-              Whether you drive for personal or business use, ACA helps you find the perfect motor insurance policy
+              ACA supports farmers with insurance that protects crops, livestock, and equipment
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 
@@ -75,20 +78,20 @@ const Motor = () => {
         </div>
       </section>
 
-      {/* Vehicle Types */}
+      {/* Coverage Types */}
       <section id="coverage" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              We Cover All Vehicle Types
+              Comprehensive Farm Protection
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive and third-party coverage for every vehicle on Kenyan roads
+              Protecting Kenya's farmers from field to harvest
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {vehicleTypes.map((type, index) => {
+            {coverageTypes.map((type, index) => {
               const Icon = type.icon;
               return (
                 <Card 
@@ -116,10 +119,10 @@ const Motor = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                What's Included
+                What's Protected
               </h2>
               <p className="text-xl text-muted-foreground">
-                Comprehensive protection for you and your vehicle
+                Comprehensive coverage for your farming operations
               </p>
             </div>
 
@@ -146,21 +149,22 @@ const Motor = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy driver"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80"}
+          alt="Bountiful harvest"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in">
-            Get Your Motor Insurance Quote Today
+            Protect Your Farm and Livelihood
           </h2>
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Drive with confidence knowing you're protected by ACA Insurance
+            From crop failure to bountiful harvest - ACA supports Kenyan farmers every step of the way
           </p>
 
           <Button 
@@ -179,4 +183,4 @@ const Motor = () => {
   );
 };
 
-export default Motor;
+export default Agriculture;
