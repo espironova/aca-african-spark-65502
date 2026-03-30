@@ -1,3 +1,4 @@
+"use client";
 import { FileText, Search, ClipboardCheck, Banknote, CheckCircle } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 

@@ -1,24 +1,25 @@
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Heart, Users, Building2, UserCheck, CheckCircle2, MessageCircle } from "lucide-react";
+import { Home as HomeIcon, Shield, Flame, Users2, CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const Medical = () => {
+const Home = () => {
   const benefits = [
-    "Inpatient and outpatient care",
-    "Maternity and newborn coverage",
-    "Prescription medications",
-    "Specialist consultations",
-    "Emergency medical services",
-    "Dental and optical care"
+    "Building structure coverage",
+    "Contents and belongings protection",
+    "Fire and perils cover",
+    "Theft and burglary protection",
+    "Natural disaster coverage",
+    "Alternative accommodation costs"
   ];
 
   const coverageTypes = [
-    { title: "Individual Cover", description: "Personalized health insurance", icon: UserCheck },
-    { title: "Family Plans", description: "Protect your entire family", icon: Users },
-    { title: "Group Medical", description: "Employee health benefits", icon: Building2 },
-    { title: "Life Insurance", description: "Financial security for loved ones", icon: Heart }
+    { title: "Building Cover", description: "Protection for your home structure", icon: HomeIcon },
+    { title: "Contents Cover", description: "Safeguard your belongings", icon: Shield },
+    { title: "Fire & Perils", description: "Protection against fire damage", icon: Flame },
+    { title: "Domestic Staff", description: "Cover for house employees", icon: Users2 }
   ];
 
   return (
@@ -28,30 +29,32 @@ const Medical = () => {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=2000&q=80"
-            alt="African doctor with patient"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=2000&q=80"}
+          alt="African family home"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70" />
         </div>
 
-        {/* Animated Heart Icon */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
-          <Heart className="w-32 h-32 text-accent/20 animate-pulse" />
+        {/* Animated Home Icon */}
+        <div className="absolute top-20 right-0 z-10 pointer-events-none">
+          <HomeIcon className="w-16 h-16 text-accent animate-bounce opacity-70" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="animate-fade-in">
             <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <Heart className="w-12 h-12 text-accent-foreground" />
+              <HomeIcon className="w-12 h-12 text-accent-foreground" />
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6">
-              Medical & Life Insurance
+              Home Insurance
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
-              Healthcare is peace of mind. ACA provides health and life cover for individuals, families, and organizations
+              Protect your home and belongings from risks like fire, theft, and natural disasters
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button 
@@ -80,10 +83,10 @@ const Medical = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Healthcare Solutions for Everyone
+              Comprehensive Home Protection
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              From individuals to large organizations, we have you covered
+              Choose the coverage that fits your needs and budget
             </p>
           </div>
 
@@ -116,10 +119,10 @@ const Medical = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                Comprehensive Health Benefits
+                What's Covered
               </h2>
               <p className="text-xl text-muted-foreground">
-                Access quality healthcare without breaking the bank
+                Comprehensive protection for your home and peace of mind for your family
               </p>
             </div>
 
@@ -146,21 +149,22 @@ const Medical = () => {
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy African family"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy family at home"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-accent/80" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in">
-            Invest in Your Health Today
+            Protect Your Home Today
           </h2>
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Quality healthcare shouldn't be a luxury - let ACA make it accessible
+            Your home is your sanctuary - let ACA Insurance help keep it safe
           </p>
 
           <Button 
@@ -179,4 +183,4 @@ const Medical = () => {
   );
 };
 
-export default Medical;
+export default Home;

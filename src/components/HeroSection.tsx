@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import { Car, Home, Heart, Briefcase, Sprout, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -80,12 +82,13 @@ const HeroSection = () => {
                 <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
                   {/* Background Image */}
                   <div className="absolute inset-0 z-0">
-                    <img
-                      src={service.image}
-                      alt={service.name}
-                      className="w-full h-full object-cover"
-                      loading={index === 0 ? "eager" : "lazy"}
-                    />
+                    <Image
+          src={service.image}
+          alt={service.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
                     <div className={`absolute inset-0 bg-gradient-to-r ${service.color} z-10`} />
                   </div>
 

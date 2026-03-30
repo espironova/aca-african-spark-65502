@@ -1,18 +1,18 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import AboutUs from "./pages/AboutUs";
-import Services from "./pages/Services";
-import Contact from "./pages/Contact";
-import Motor from "./pages/services/Motor";
-import Home from "./pages/services/Home";
-import Medical from "./pages/services/Medical";
-import Business from "./pages/services/Business";
-import Agriculture from "./pages/services/Agriculture";
-import Travel from "./pages/services/Travel";
-import NotFound from "./pages/NotFound";
+import { Routes, Route } from "react-router-dom";
+import Index from "./routes/Index";
+import AboutUs from "./routes/AboutUs";
+import Services from "./routes/Services";
+import Contact from "./routes/Contact";
+import Motor from "./routes/services/Motor";
+import Home from "./routes/services/Home";
+import Medical from "./routes/services/Medical";
+import Business from "./routes/services/Business";
+import Agriculture from "./routes/services/Agriculture";
+import Travel from "./routes/services/Travel";
+import NotFound from "./routes/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <Toaster />
     <Sonner />
-    <BrowserRouter>
+    
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<AboutUs />} />
@@ -35,7 +35,7 @@ const App = () => (
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    
   </QueryClientProvider>
 );
 

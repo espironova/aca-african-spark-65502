@@ -1,3 +1,5 @@
+"use client";
+import Image from 'next/image'
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Car, Home, Heart, Briefcase, Sprout, Plane, ArrowRight, Phone, MessageCircle, CheckCircle } from "lucide-react";
@@ -132,12 +134,14 @@ const Services = () => {
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy African family protected by insurance"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy African family protected by insurance"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
           <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-accent/70" />
         </div>
         
@@ -210,12 +214,13 @@ const Services = () => {
                 >
                   <div className="relative h-48 overflow-hidden">
                     <div className={`absolute inset-0 bg-gradient-to-br ${service.color} z-10 opacity-90 group-hover:opacity-70 transition-opacity`} />
-                    <img 
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
+                    <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
                     <div className="absolute inset-0 flex items-center justify-center z-20">
                       <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
                         <Icon className="w-10 h-10 text-accent-foreground" />
@@ -255,12 +260,13 @@ const Services = () => {
               <div className={`grid md:grid-cols-2 gap-12 items-center ${!isEven ? 'md:flex-row-reverse' : ''}`}>
                 <div className={`${!isEven ? 'md:order-2' : ''} animate-fade-in`}>
                   <div className="relative group">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="rounded-2xl shadow-2xl group-hover:shadow-accent/50 transition-all duration-500"
-                      loading="lazy"
-                    />
+                    <Image
+          src={service.image}
+          alt={service.title}
+          width={180}
+          height={64}
+          className="rounded-2xl shadow-2xl group-hover:shadow-accent/50 transition-all duration-500 w-auto"
+        />
                     <div className="absolute top-6 left-6 w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-lg animate-bounce-subtle">
                       <Icon className="w-10 h-10 text-accent-foreground" />
                     </div>
@@ -452,12 +458,13 @@ const Services = () => {
       {/* Final CTA */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"
-            alt="Happy African family"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <Image
+          src={"https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=2000&q=80"}
+          alt="Happy African family"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-accent/80" />
         </div>
 
